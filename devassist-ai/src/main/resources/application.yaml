@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: devassist-ai
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/devassist_ai
+    username: ${dbUserName}
+    password: ${dbPassword}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  docker:
+    compose:
+      enabled: false
+
+  ai:
+    openai:
+      api-key: ${groq-key}
+      base-url: ${groq-api}
+
+      chat:
+        options:
+          model: llama-3.3-70b-versatile
+
+  app:
+    jwtSecret: ${jwtSecret}
+    jwtExpirationMs: 86400000
+    jwtCookieName: devassist
+

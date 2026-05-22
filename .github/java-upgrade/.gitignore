@@ -1,0 +1,11 @@
+backend/build/
+backend/.gradle/
+frontend/node_modules/
+.idea/
+.env
+.env
+*.env
+node_modules/
+build/
+.gradle/
+.idea/
