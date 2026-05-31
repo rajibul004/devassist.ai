@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { sendMessage } from "../api/chatApi";
 import ReactMarkdown from "react-markdown";
+import DotPattern from "./ui/dot-pattern";
 
 import { Message, MessageContent, MessageAvatar } from "./ui/message";
 
@@ -54,103 +55,90 @@ export default function Chats() {
   };
 
   return (
-    <div className="h-screen bg-[#212121] flex flex-col">
-      {/* Header */}
+    <div className="relative h-screen w-screen overflow-hidden">
+      <DotPattern />
 
-      <div className="border-b border-zinc-800 px-6 py-4">
-        <h1 className="text-white text-lg font-semibold">DevAssist AI</h1>
-      </div>
-
-      {/* Empty State */}
-
-      {messages.length === 0 && (
-        <div className="flex-1 flex flex-col items-center justify-center px-4">
-          <h1 className="text-white text-4xl font-semibold mb-3">
-            How can I help you?
-          </h1>
-
-          <p className="text-zinc-400 text-center max-w-md">
-            Ask coding questions, debug backend issues, generate APIs, or
-            explore AI ideas.
-          </p>
+      <div className="relative z-20 flex h-screen flex-col">
+        {/* Header */}
+        <div className="border-b border-zinc-800 px-6 py-4">
+          <h1 className="text-white text-lg font-semibold">DevAssist AI</h1>
         </div>
-      )}
 
-      {/* Messages */}
+        {/* Center */}
+        <div className="flex-1 overflow-y-auto">
+          {messages.length === 0 ? (
+            <div className="text-center">
+              <h1 className="text-4xl font-semibold text-white">
+                How can I help you?
+              </h1>
 
-      {messages.length > 0 && (
-        <div className="flex-1 overflow-y-auto px-4 py-6">
-          <div className="mx-auto max-w-3xl space-y-6">
-            {messages.map((message, index) => (
-              <Message key={index} from={message.role}>
-                {message.role === "assistant" && <MessageAvatar name="AI" />}
+              <p className="mt-3 text-zinc-400">
+                Ask coding questions and debug issues.
+              </p>
+            </div>
+          ) : (
+            <div className="w-full max-w-4xl px-6">
+              {/* Messages */}
 
-                <MessageContent
-                  className={
-                    message.role === "user"
-                      ? "bg-zinc-700 text-white rounded-2xl px-4 py-3"
-                      : "bg-transparent text-white shadow-none"
-                  }
-                >
-                  <div className="space-y-3">
-                    {message.explanation && (
-                      <div>
-                        <p className="text-sm font-semibold text-zinc-300 mb-1">
-                          Explanation
-                        </p>
-                        <ReactMarkdown>
-                          {message.explanation}
-                        </ReactMarkdown>{" "}
+              {messages.length > 0 && (
+                <div className="flex-1 overflow-y-auto">
+                  <div className="mx-auto max-w-4xl px-6 py-8 pb-40">
+                    {messages.map((message, index) => (
+                      <div
+                        key={index}
+                        className={`mb-6 flex ${
+                          message.role === "user"
+                            ? "justify-end"
+                            : "justify-start"
+                        }`}
+                      >
+                        <div
+                          className={`max-w-[90%] rounded-3xl px-5 py-4 ${
+                            message.role === "user"
+                              ? "bg-violet-600 text-white"
+                              : "border border-zinc-800 bg-zinc-900/80 text-white"
+                          }`}
+                        >
+                          {message.explanation && (
+                            <ReactMarkdown>{message.explanation}</ReactMarkdown>
+                          )}
+
+                          {message.suggestedFix && (
+                            <ReactMarkdown>
+                              {message.suggestedFix}
+                            </ReactMarkdown>
+                          )}
+
+                          {message.content && <p>{message.content}</p>}
+                        </div>
                       </div>
-                    )}
-
-                    {message.suggestedFix && (
-                      <div>
-                        <p className="text-sm font-semibold text-zinc-300 mb-1">
-                          Suggested Fix
-                        </p>
-                        <ReactMarkdown>
-                          {message.suggestedFix}
-                        </ReactMarkdown>{" "}
-                      </div>
-                    )}
-
-                    {message.content && <p>{message.content}</p>}
+                    ))}
                   </div>
-                </MessageContent>
-
-                {message.role === "user" && <MessageAvatar name="RM" />}
-              </Message>
-            ))}
-          </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
-      )}
 
-      {/* Input */}
+        {/* Input */}
+        <div className="p-6">
+          <div className="mx-auto max-w-4xl">
+            <div className="flex items-center gap-3 rounded-2xl border border-zinc-700 bg-zinc-900/80 px-4 py-3 backdrop-blur-xl">
+              <input
+                type="text"
+                value={input}
+                placeholder="Message DevAssist..."
+                onChange={(e) => setInput(e.target.value)}
+                className="flex-1 bg-transparent text-white outline-none"
+              />
 
-      <div className="border-t border-zinc-800 p-4">
-        <div className="mx-auto max-w-3xl">
-          <div className="flex items-center gap-3 rounded-2xl border border-zinc-700 bg-zinc-800 px-4 py-3">
-            <input
-              type="text"
-              placeholder="Message DevAssist AI..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleSend();
-                }
-              }}
-              className="flex-1 bg-transparent text-white outline-none placeholder:text-zinc-400"
-            />
-
-            <button
-              onClick={handleSend}
-              disabled={loading}
-              className="rounded-xl bg-white px-4 py-2 text-black font-medium hover:bg-zinc-200 disabled:opacity-50"
-            >
-              {loading ? "Thinking..." : "Send"}
-            </button>
+              <button
+                onClick={handleSend}
+                className="rounded-xl bg-violet-600 px-4 py-2 text-white"
+              >
+                Send
+              </button>
+            </div>
           </div>
         </div>
       </div>
