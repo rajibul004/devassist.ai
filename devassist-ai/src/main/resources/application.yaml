@@ -1,17 +1,21 @@
+server:
+  port: ${PORT:8080}
+
 spring:
   application:
     name: devassist-ai
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/devassist_ai
+    url: ${DB_URL}
     username: ${dbUserName}
     password: ${dbPassword}
     driver-class-name: org.postgresql.Driver
 
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
     hibernate:
       ddl-auto: update
-      show-sql: true
 
   servlet:
     multipart:
@@ -35,4 +39,3 @@ spring:
     jwtSecret: ${jwtSecret}
     jwtExpirationMs: 86400000
     jwtCookieName: devassist
-
