@@ -50,7 +50,9 @@ public class WebSecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(
-                List.of("http://localhost:5173")
+                List.of("http://localhost:5173",
+                        "https://devassist-ai-osi9.vercel.app"
+                )
         );
 
         configuration.setAllowedMethods(
