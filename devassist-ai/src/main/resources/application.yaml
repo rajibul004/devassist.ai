@@ -3,7 +3,7 @@ spring:
     name: devassist-ai
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/devassist_ai
+    url: ${DB_URL}
     username: ${dbUserName}
     password: ${dbPassword}
     driver-class-name: org.postgresql.Driver
