@@ -2,6 +2,7 @@ import { useState } from "react";
 import { sendMessage } from "../api/chatApi";
 import ReactMarkdown from "react-markdown";
 import DotPattern from "./ui/dot-pattern";
+import { Link } from "react-router-dom";
 
 import { Message, MessageContent, MessageAvatar } from "./ui/message";
 
@@ -55,19 +56,41 @@ export default function Chats() {
   };
 
   return (
-    <div className="relative h-screen w-screen overflow-hidden">
+    <div className="relative h-screen w-screen overflow-hidden bg-black">
       <DotPattern />
 
       <div className="relative z-20 flex h-screen flex-col">
         {/* Header */}
-        <div className="border-b border-zinc-800 px-6 py-4">
-          <h1 className="text-white text-lg font-semibold">DevAssist AI</h1>
-        </div>
+        <header className="border-b border-zinc-800 bg-black/40 px-6 py-4 backdrop-blur-xl">
+          <div className="mx-auto flex max-w-6xl items-center justify-between">
+            <Link to="/">
+              {/* Logo */}
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-violet-600">
+                  🤖
+                </div>
 
-        {/* Center */}
-        <div className="flex-1 overflow-y-auto">
+                <div>
+                  <h1 className="text-lg font-semibold text-white">
+                    DevAssist AI
+                  </h1>
+
+                  <p className="text-xs text-zinc-500">AI Coding Assistant</p>
+                </div>
+              </div>
+            </Link>
+            {/* Status */}
+            <div className="hidden items-center gap-2 rounded-full border border-zinc-800 px-3 py-1 text-sm text-zinc-400 md:flex">
+              <span className="h-2 w-2 rounded-full bg-green-500"></span>
+              Online
+            </div>
+          </div>
+        </header>
+        {/* Chat Area */}
+        <main className="flex-1 overflow-y-auto min-h-0">
           {messages.length === 0 ? (
-            <div className="text-center">
+            // Empty state
+            <div className="flex h-full flex-col items-center justify-center text-center">
               <h1 className="text-4xl font-semibold text-white">
                 How can I help you?
               </h1>
@@ -77,70 +100,113 @@ export default function Chats() {
               </p>
             </div>
           ) : (
-            <div className="w-full max-w-4xl px-6">
-              {/* Messages */}
+            // Messages
+            <div className="mx-auto max-w-4xl px-6 py-8 pb-36">
+              {messages.map((message, index) => (
+                <div
+                  key={index}
+                  className={`mb-6 flex ${
+                    message.role === "user" ? "justify-end" : "justify-start"
+                  }`}
+                >
+                  <div
+                    className={`
+                    max-w-[85%]
+                    rounded-3xl
+                    px-5
+                    py-4
+                    leading-relaxed
+                    break-words
+                    
+                    ${
+                      message.role === "user"
+                        ? "bg-violet-600 text-white"
+                        : "border border-zinc-800 bg-zinc-900/80 text-zinc-100"
+                    }
+                  `}
+                  >
+                    {/* Explanation */}
+                    {message.explanation && (
+                      <div className="mb-4">
+                        <h3 className="mb-2 font-semibold text-blue-400">
+                          Explanation
+                        </h3>
 
-              {messages.length > 0 && (
-                <div className="flex-1 overflow-y-auto">
-                  <div className="mx-auto max-w-4xl px-6 py-8 pb-40">
-                    {messages.map((message, index) => (
-                      <div
-                        key={index}
-                        className={`mb-6 flex ${
-                          message.role === "user"
-                            ? "justify-end"
-                            : "justify-start"
-                        }`}
-                      >
-                        <div
-                          className={`max-w-[90%] rounded-3xl px-5 py-4 ${
-                            message.role === "user"
-                              ? "bg-violet-600 text-white"
-                              : "border border-zinc-800 bg-zinc-900/80 text-white"
-                          }`}
-                        >
-                          {message.explanation && (
-                            <ReactMarkdown>{message.explanation}</ReactMarkdown>
-                          )}
-
-                          {message.suggestedFix && (
-                            <ReactMarkdown>
-                              {message.suggestedFix}
-                            </ReactMarkdown>
-                          )}
-
-                          {message.content && <p>{message.content}</p>}
-                        </div>
+                        <ReactMarkdown>{message.explanation}</ReactMarkdown>
                       </div>
-                    ))}
+                    )}
+
+                    {/* Suggested Fix */}
+                    {message.suggestedFix && (
+                      <div className="mb-4">
+                        <h3 className="mb-2 font-semibold text-green-400">
+                          Suggested Fix
+                        </h3>
+
+                        <ReactMarkdown>{message.suggestedFix}</ReactMarkdown>
+                      </div>
+                    )}
+
+                    {/* Content */}
+                    {message.content && (
+                      <div>
+                        <h3 className="mb-2 font-semibold text-violet-400">
+                          Response
+                        </h3>
+
+                        <p>{message.content}</p>
+                      </div>
+                    )}
                   </div>
                 </div>
-              )}
+              ))}
             </div>
           )}
-        </div>
+        </main>
 
         {/* Input */}
-        <div className="p-6">
+        <footer className="border-t border-zinc-800 bg-black/70 p-5 backdrop-blur-xl">
           <div className="mx-auto max-w-4xl">
-            <div className="flex items-center gap-3 rounded-2xl border border-zinc-700 bg-zinc-900/80 px-4 py-3 backdrop-blur-xl">
+            <div
+              className="
+            flex items-center gap-3
+            rounded-2xl
+            border border-zinc-700
+            bg-zinc-900/90
+            px-4 py-3
+          "
+            >
               <input
-                type="text"
                 value={input}
                 placeholder="Message DevAssist..."
                 onChange={(e) => setInput(e.target.value)}
-                className="flex-1 bg-transparent text-white outline-none"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") handleSend();
+                }}
+                className="
+                flex-1
+                bg-transparent
+                text-white
+                outline-none
+                placeholder:text-zinc-500
+              "
               />
 
               <button
                 onClick={handleSend}
-                className="rounded-xl bg-violet-600 px-4 py-2 text-white"
+                className="
+                rounded-xl
+                bg-violet-600
+                px-5 py-2
+                text-white
+                hover:bg-violet-500
+              "
               >
                 Send
               </button>
             </div>
           </div>
-        </div>
+        </footer>
       </div>
     </div>
   );

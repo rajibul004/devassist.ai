@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8080/api";
+const BASE_URL = import.meta.env.VITE_BASE_API;
 
 export const loginUser = async (loginData) => {
   const response = await axios.post(`${BASE_URL}/public/signin`, loginData);
