@@ -3,6 +3,7 @@ import { sendMessage } from "../api/chatApi";
 import ReactMarkdown from "react-markdown";
 import DotPattern from "./ui/dot-pattern";
 import { Link } from "react-router-dom";
+import { downloadPdf } from "../api/chatApi";
 
 import { Message, MessageContent, MessageAvatar } from "./ui/message";
 
@@ -156,6 +157,26 @@ export default function Chats() {
 
                         <p>{message.content}</p>
                       </div>
+                    )}
+                    {/* Download Button */}
+                    {message.role !== "user" && (
+                      
+                      <button
+                      
+                        onClick={() => downloadPdf(message)
+                        }
+                        
+                        
+                        className="
+      mt-4 rounded-xl
+      bg-violet-600
+      px-4 py-2
+      text-white
+    "
+                      >
+                        Download PDF
+                        
+                      </button>
                     )}
                   </div>
                 </div>

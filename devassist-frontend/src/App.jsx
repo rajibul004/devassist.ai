@@ -6,6 +6,7 @@ import Chats from "./components/chats";
 import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
 import LoadingPage from "./components/ui/LoadingPage";
+import Developer from "./components/Developer.jsx";
 
 export default function App() {
   return (
@@ -22,7 +23,20 @@ export default function App() {
       <Route path="/signup" element={<SignupForm />} />
       <Route path="/login" element={<LoginForm />} />
       <Route path="/loading" element={<LoadingPage />} />
-      <Route path="/chats" element={<Chats />} />
+      <Route
+        path="/chats"
+        element=<>
+          <Navbar />
+          <Chats />
+        </>
+      />
+      <Route
+        path="/developer"
+        element=<>
+          <Navbar />
+          <Developer />
+        </>
+      />
     </Routes>
   );
 }

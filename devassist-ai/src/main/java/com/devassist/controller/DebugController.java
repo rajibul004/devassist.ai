@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class DebugController {
     private final DebugService debugService;
 
-
     public DebugController(DebugService debugService) {
         this.debugService = debugService;
     }
