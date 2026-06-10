@@ -5,7 +5,9 @@ WORKDIR /app
 
 COPY . .
 
-RUN gradle clean build -x test
+RUN chmod +x gradlew
+
+RUN ./gradlew clean build -x test
 
 
 # run app
