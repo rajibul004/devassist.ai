@@ -44,9 +44,9 @@ export default function Navbar() {
 
         <div className="hidden md:flex items-center gap-10">
           {[
-            { name: "Features", path: "/" },
-            { name: "Platform", path: "/" },
-            { name: "Pricing", path: "/" },
+            { name: "Features", path: "/features" },
+            { name: "Platform", path: "/platform" },
+            { name: "Pricing", path: "/pricing" },
             { name: "Developer", path: "/developer" },
           ].map((item) => (
             <Link

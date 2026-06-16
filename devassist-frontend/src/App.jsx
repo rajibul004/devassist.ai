@@ -7,6 +7,7 @@ import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
 import LoadingPage from "./components/ui/LoadingPage";
 import Developer from "./components/Developer.jsx";
+import UnderDevelopment from "./components/UnderDevelopment.jsx";
 
 export default function App() {
   return (
@@ -35,6 +36,27 @@ export default function App() {
         element=<>
           <Navbar />
           <Developer />
+        </>
+      />
+      <Route
+        path="/features"
+        element=<>
+          <Navbar />
+          <UnderDevelopment />
+        </>
+      />
+      <Route
+        path="/platform"
+        element=<>
+          <Navbar />
+          <UnderDevelopment />
+        </>
+      />
+      <Route
+        path="/pricing"
+        element=<>
+          <Navbar />
+          <UnderDevelopment />
         </>
       />
     </Routes>
