@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -42,7 +43,10 @@ public class UserServiceImpl implements UserService{
                 user -> new UserDTO(
                         user.getId(),
                         user.getEmail(),
-                        user.getRole().name()
+                        user.getFirstName(),
+                        user.getLastName(),
+                        user.getRole().name(),
+                        user.getCreatedAt()
                 ))
                 .toList();
     }
@@ -56,10 +60,20 @@ public class UserServiceImpl implements UserService{
         User user = new User();
         user.setEmail(authDTO.email());
         user.setPassword(passwordEncoder.encode(authDTO.password()));
+        user.setFirstName(authDTO.firstName());
+        user.setLastName(authDTO.lastName());
         user.setRole(Role.USER);
+        user.setCreatedAt(LocalDateTime.now());
 
         User savedUser = userRepository.save(user);
-        return new UserDTO(savedUser.getId(),savedUser.getEmail(),savedUser.getRole().name());
+        return new UserDTO(
+                savedUser.getId(),
+                savedUser.getEmail(),
+                savedUser.getFirstName(),
+                savedUser.getLastName(),
+                savedUser.getRole().name(),
+                savedUser.getCreatedAt()
+        );
     }
 
     @Override

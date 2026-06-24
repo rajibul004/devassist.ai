@@ -1,6 +1,5 @@
 package com.devassist.service;
 
-import com.devassist.dto.RequestDTO;
 import com.devassist.dto.ResponseDTO;
 import com.devassist.entity.User;
 import com.devassist.exception.APIException;
