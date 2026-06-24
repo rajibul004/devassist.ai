@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { signupUser } from "../api/authApi";
+import { useNavigate } from "react-router-dom";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,6 +21,8 @@ export default function SignupPage() {
 
     const payload = {
       email,
+      firstName,
+      lastName,
       password,
     };
 
@@ -39,28 +45,31 @@ export default function SignupPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#050505] flex justify-center items-center">
-      <div className="w-[75vw] h-[80vh]">
+<div className="relative min-h-screen overflow-hidden flex justify-center items-center bg-[#020617]">
+
+  {/* Outside animations */}
+  <div className="particles"></div>
+
+  <div className="orbit orbit-one"></div>
+  <div className="orbit orbit-two"></div>
+
+      {/* Main Card */}
+      <div className="relative z-10 w-[80vw] h-[85vh]">
         <div
           className="
-            relative
-            h-full
-            rounded-[40px]
-            border
-            border-white/10
-            bg-[#08090D]
-            overflow-hidden
-          "
+        h-full
+        rounded-[40px]
+        border
+        border-white/10
+        bg-white/[0.04]
+        backdrop-blur-xl
+        shadow-2xl
+        overflow-hidden
+      "
         >
-          {/* Glow Effects */}
-          <div className="absolute -top-40 -left-40 h-[500px] w-[500px] rounded-full bg-violet-600/20 blur-[150px] animate-float" />
+          <div className="h-full grid lg:grid-cols-[45%_55%]">
+            {/* your content */}
 
-          <div className="absolute -bottom-40 -right-40 h-[500px] w-[500px] rounded-full bg-blue-600/20 blur-[150px] animate-float-reverse" />
-
-          {/* Grid */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px]" />
-
-          <div className="relative z-10 h-full grid lg:grid-cols-[45%_55%]">
             {/* Left Side */}
             <div className="hidden lg:flex flex-col justify-center px-20">
               <div className="max-w-xl">
@@ -120,7 +129,7 @@ export default function SignupPage() {
                       placeholder="you@example.com"
                       className="
                         mt-2
-                        h-12
+                        h-10
                         w-full
                         rounded-xl
                         border
@@ -135,6 +144,66 @@ export default function SignupPage() {
                       "
                     />
                   </div>
+                  {/*First Name */}
+                  <div className="grid grid-cols-2 gap-4">
+                    {/* First Name */}
+                    <div>
+                      <label className="text-sm text-slate-400">
+                        First Name
+                      </label>
+
+                      <input
+                        type="text"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        placeholder="John"
+                        className="
+        mt-2
+        h-10
+        w-full
+        rounded-xl
+        border
+        border-white/10
+        bg-white/[0.03]
+        px-4
+        text-white
+        placeholder:text-slate-500
+        outline-none
+        transition-all
+        focus:border-violet-500
+      "
+                      />
+                    </div>
+
+                    {/* Last Name */}
+                    <div>
+                      <label className="text-sm text-slate-400">
+                        Last Name
+                      </label>
+
+                      <input
+                        type="text"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        placeholder="Doe"
+                        className="
+        mt-2
+        h-10
+        w-full
+        rounded-xl
+        border
+        border-white/10
+        bg-white/[0.03]
+        px-4
+        text-white
+        placeholder:text-slate-500
+        outline-none
+        transition-all
+        focus:border-violet-500
+      "
+                      />
+                    </div>
+                  </div>
 
                   {/* Password */}
                   <div>
@@ -147,7 +216,7 @@ export default function SignupPage() {
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Create password"
                         className="
-        h-12
+        h-10
         w-full
         rounded-xl
         border
@@ -197,7 +266,7 @@ export default function SignupPage() {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         placeholder="Confirm password"
                         className="
-        h-12
+        h-10
         w-full
         rounded-xl
         border
@@ -239,7 +308,7 @@ export default function SignupPage() {
                   <button
                     type="submit"
                     className="
-                      h-12
+                      h-10
                       w-full
                       rounded-xl
                       bg-violet-600
@@ -253,7 +322,7 @@ export default function SignupPage() {
                   </button>
                 </form>
 
-                <div className="mt-8 text-center">
+                <div className="mt-6 text-center">
                   <p className="text-sm text-slate-500">
                     Already have an account?{" "}
                     <a
@@ -269,27 +338,6 @@ export default function SignupPage() {
           </div>
         </div>
       </div>
-
-      {/* Animations */}
-      <style>{`
-        @keyframes float {
-          0%,100% { transform: translate(0,0); }
-          50% { transform: translate(40px,-40px); }
-        }
-
-        @keyframes floatReverse {
-          0%,100% { transform: translate(0,0); }
-          50% { transform: translate(-40px,40px); }
-        }
-
-        .animate-float {
-          animation: float 12s ease-in-out infinite;
-        }
-
-        .animate-float-reverse {
-          animation: floatReverse 15s ease-in-out infinite;
-        }
-      `}</style>
     </div>
   );
 }

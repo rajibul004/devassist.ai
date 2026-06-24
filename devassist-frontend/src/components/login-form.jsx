@@ -35,7 +35,12 @@ export default function LoginPage() {
     }
   };
   return (
-    <div className="min-h-screen bg-[#050505] flex justify-center items-center">
+    <div className="relative min-h-screen overflow-hidden flex justify-center items-center bg-[#020617]">
+      {/* Outside animations */}
+      <div className="particles"></div>
+
+      <div className="orbit orbit-one"></div>
+      <div className="orbit orbit-two"></div>
       <div className="w-[75vw] h-[80vh]">
         <div
           className="
@@ -103,7 +108,7 @@ export default function LoginPage() {
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <label className="text-sm text-slate-400">Email</label>
+                    <label className="text-md text-slate-400">Email</label>
 
                     <input
                       type="email"
@@ -112,9 +117,9 @@ export default function LoginPage() {
                       placeholder="you@example.com"
                       className="
                       mt-2
-                      h-12
+                      h-14
                       w-full
-                      rounded-xl
+                      rounded-2xl
                       border
                       border-white/10
                       bg-white/[0.03]
@@ -127,7 +132,7 @@ export default function LoginPage() {
                     />
                   </div>
                   <div>
-                    <label className="text-sm text-slate-400">Password</label>
+                    <label className="text-md text-slate-400">Password</label>
 
                     <input
                       type="password"
@@ -136,9 +141,9 @@ export default function LoginPage() {
                       placeholder="••••••••"
                       className="
                       mt-2
-                      h-12
+                      h-14
                       w-full
-                      rounded-xl
+                      rounded-2xl
                       border
                       border-white/10
                       bg-white/[0.03]
