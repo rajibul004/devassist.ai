@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar";
 import LoadingPage from "./components/ui/LoadingPage";
 import Developer from "./components/Developer.jsx";
 import UnderDevelopment from "./components/UnderDevelopment.jsx";
+import AdminUsers from "./components/Admin.jsx";
 
 export default function App() {
   return (
@@ -31,6 +32,7 @@ export default function App() {
           <Chats />
         </>
       />
+      <Route path="/admin" element={<AdminUsers />} />
       <Route
         path="/developer"
         element=<>

@@ -5,12 +5,11 @@ import { useNavigate } from "react-router-dom";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log("Login button clicked");
 
     try {
       const data = await loginUser({
@@ -18,18 +17,23 @@ export default function LoginPage() {
         password,
       });
 
-      console.log("API Response:", data);
-
       localStorage.setItem("token", data.token);
+
       localStorage.setItem("email", data.email);
 
-      console.log("Navigating...");
-      navigate("/loading");
+      localStorage.setItem("role", data.role);
+
+      setTimeout(() => {
+        if (data.role === "ROLE_ADMIN") {
+          navigate("/admin");
+        } else {
+          navigate("/chats");
+        }
+      }, 2000);
     } catch (error) {
-      console.error("Login Error:", error);
+      console.log("Login Error:", error);
     }
   };
-
   return (
     <div className="min-h-screen bg-[#050505] flex justify-center items-center">
       <div className="w-[75vw] h-[80vh]">

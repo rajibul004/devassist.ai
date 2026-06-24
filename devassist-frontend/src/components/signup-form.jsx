@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { signupUser } from "../api/authApi";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -14,10 +15,25 @@ export default function SignupPage() {
       return;
     }
 
-    console.log({
+    const payload = {
       email,
       password,
-    });
+    };
+
+    console.log("Sending:", payload);
+
+    try {
+      const data = await signupUser(payload);
+
+      console.log("Signup success:", data);
+      navigate("/login");
+    } catch (error) {
+      console.log("Signup failed:", error);
+
+      console.log("Server response:", error.response?.data);
+
+      console.log("Status:", error.response?.status);
+    }
   };
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);

@@ -21,6 +21,7 @@ export const loginUser = async (loginData) => {
 // SIGNUP
 export const signupUser = async (signupData) => {
   const response = await axios.post(`${BASE_URL}/public/signup`, signupData);
+  console.log("signupUser response:", response.data);
 
   return response.data;
 };
